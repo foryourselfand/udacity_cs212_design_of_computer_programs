@@ -1,5 +1,5 @@
-from lesson1.resources.dealing import deal
-from lesson1.resources.poker import hand_rank
+from dealing import deal
+from poker import hand_rank
 
 
 def percentages(n = 700 * 1000):
