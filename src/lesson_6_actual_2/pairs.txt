@@ -1,0 +1,14 @@
+nation color
+nation animal
+drink color
+nation drink
+color color
+smoke animal
+smoke color
+drink drink
+nation nation
+smoke animal
+smoke animal
+smoke drink
+nation smoke
+nation color
