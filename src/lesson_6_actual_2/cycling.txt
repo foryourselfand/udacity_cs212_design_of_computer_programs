@@ -1,0 +1,5 @@
+    for (red, green, ivory, yellow, blue) in orderings:  # color
+        for (Englishman, Spaniard, Ukranian, Japanese, Norwegian) in orderings:  # nation
+            for (dog, snails, fox, horse, ZEBRA) in orderings:  # animal
+                for (coffee, tea, milk, oj, WATER) in orderings:  # drink
+                    for (OldGold, Kools, Chesterfields, LuckyStrike, Parliaments) in orderings:  # smoke

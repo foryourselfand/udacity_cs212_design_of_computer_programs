@@ -1,0 +1,14 @@
+if Englishman is not red: continue
+if Spaniard is not dog: continue
+if coffee is not green: continue
+if Ukranian is not tea: continue
+if not immediately_right(green, ivory): continue
+if OldGold is not snails: continue
+if Kools is not yellow: continue
+if milk is not middle: continue
+if Norwegian is not first: continue
+if not next_to(Chesterfields, fox): continue
+if not next_to(Kools, horse): continue
+if LuckyStrike is not oj: continue
+if Japanese is not Parliaments: continue
+if not next_to(Norwegian, blue): continue
