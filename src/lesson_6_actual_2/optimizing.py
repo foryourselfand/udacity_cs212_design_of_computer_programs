@@ -56,18 +56,24 @@ def main():
     
     pairs: Set[Tuple[str, str]] = get_pairs()
     
+    most_type: Counter[str, int] = Counter()
     most_type_pairs: Counter[str, int] = Counter()
     most_elements: Dict[str, Counter[str, int]] = defaultdict(Counter)
     
     for pair in pairs:
         element_first, element_second = pair
         type_first, type_second = types[element_first], types[element_second]
+        most_type[type_first] += 1
+        most_type[type_second] += 1
         
         type_pair = f'{type_first} {type_second}'
         most_type_pairs[type_pair] += 1
         
         most_elements[type_first][element_first] += 1
         most_elements[type_second][element_second] += 1
+
+    pprint(most_type, width = 1)
+    print()
     
     pprint(most_type_pairs, width = 1)
     print()
