@@ -1,4 +1,5 @@
 import re
+from collections import Counter, defaultdict
 from pprint import pprint
 from typing import Dict, Set, Tuple
 
@@ -28,7 +29,7 @@ def get_pairs() -> Set[Tuple[str, str]]:
     
     with open('checking.txt', 'r') as file_checking:
         for line in file_checking.read().splitlines():
-            pattern_equals = re.compile('if (.*) is not (.*): continue')
+            pattern_equals = re.compile('if (.*) != (.*): continue')
             pattern_immediately_right = re.compile('if not immediately_right\((.*), (.*)\): continue')
             pattern_next_to = re.compile('if not next_to\((.*), (.*)\): continue')
             
@@ -42,6 +43,8 @@ def get_pairs() -> Set[Tuple[str, str]]:
             match = matches[True]
             element_first = match.group(1)
             element_second = match.group(2)
+            element_second = element_second if element_second not in ['first', 'middle'] else element_first
+            
             pair = (element_first, element_second)
             
             pairs.add(pair)
@@ -50,11 +53,29 @@ def get_pairs() -> Set[Tuple[str, str]]:
 
 def main():
     types: Dict[str, str] = get_types()
-    pprint(types)
     
     pairs: Set[Tuple[str, str]] = get_pairs()
-    pprint(pairs)
-
-
+    
+    most_type_pairs: Counter[str, int] = Counter()
+    most_elements: Dict[str, Counter[str, int]] = defaultdict(Counter)
+    
+    for pair in pairs:
+        element_first, element_second = pair
+        type_first, type_second = types[element_first], types[element_second]
+        
+        type_pair = f'{type_first} {type_second}'
+        most_type_pairs[type_pair] += 1
+        
+        most_elements[type_first][element_first] += 1
+        most_elements[type_second][element_second] += 1
+    
+    pprint(most_type_pairs, width = 1)
+    print()
+    
+    pprint(dict(most_elements), width = 1)
+    print()
+    
 if __name__ == '__main__':
     main()
+
+# 19
