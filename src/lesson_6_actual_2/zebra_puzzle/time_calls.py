@@ -1,14 +1,14 @@
-import time
+from datetime import datetime
 
 from brute_force import zebra_puzzle_my_cycling, zebra_puzzle_my_generator, zebra_puzzle_their
 
 
 def timed_call(function, *args, **kwargs):
     """Call function with args; return the time in seconds and result."""
-    time_start = time.time()
+    time_start = datetime.now()
     result = function(*args, **kwargs)
-    time_end = time.time()
-    return time_end - time_start, result
+    time_end = datetime.now()
+    return (time_end - time_start).total_seconds(), result
 
 
 def timed_calls(n, function, *args, **kwargs):
