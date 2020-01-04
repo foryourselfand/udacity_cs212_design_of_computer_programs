@@ -26,8 +26,33 @@ def get_solution(formula):
     for formula_translated in get_formula_translated(formula):
         if is_valid(formula_translated):
             yield formula_translated
-            
 
+
+def get_solution_faster(formula):
+    """Given a formula like 'ODD + ODD == EVEN', fill in digits to solve it.
+    Input formula is a string; output is a digit-filled-in string or None"""
+    f, letters = compile_formula(formula, False)
+    for digits in itertools.permutations((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), len(letters)):
+        try:
+            if f(*digits) is True:
+                table = str.maketrans(letters, ''.join(map(str, digits)))
+                yield formula.translate(table)
+        except ArithmeticError:
+            pass
+
+
+def compile_formula(formula, verbose = False):
+    """Compile formula into a function. Also return letters found, as a str,
+    in same order as params of function. For example, 'YOU == ME**2' returns
+    (lambda Y, M, E, U, O: (U+10*O+100*Y) == (E+10*M)**2), 'YMEUO' """
+    letters = ''.join(set(re.findall('[A-Z]', formula)))
+    params = ', '.join(letters)
+    tokens = map(compile_word, re.split('([A-Z]+)', formula))
+    body = ''.join(tokens)
+    f = 'lambda %s: %s' % (params, body)
+    if verbose:
+        print(f)
+    return eval(f), letters
 
 
 def is_valid(formula_translated):
@@ -89,18 +114,31 @@ def lambdas():
     print(289 == 17 ** 2)
 
 
+def compile_word(word):
+    """Compile a word of uppercase letters as numeric digits.
+    E.g., compile_word('YOU') => '(1*U+10*O+100*Y)'
+    Non-uppercase words unchanged: compile_word('+') -> '+'"""
+    if word.isupper():
+        terms = []
+        for index, character in enumerate(word[::-1]):
+            terms.append(f'{character}*{10 ** index}')
+        return f'({"+".join(terms)})'
+    else:
+        return word
+
+
 def main():
     # formula = 'ONE < TWO and FOUR < FIVE'
     # print(f'{formula=}')
-    # solution_first = next(get_solution(formula))
+    # solution_first = next(get_solution_faster(formula))
     # print(f'{solution_first=}')
     
     # for solution in get_solution(formula):
     #     print(f'{solution=}')
     
     # test()
-    cProfile.run('test()')
     # lambdas()
+    cProfile.run('test()')
 
 
 if __name__ == '__main__':
