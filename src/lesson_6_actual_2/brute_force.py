@@ -12,7 +12,7 @@ def next_to(house_first, house_second):
     return abs(house_first - house_second) == 1
 
 
-def zebra_puzzle():  # (5!) ^ 5
+def zebra_puzzle_my():
     houses = first, _, middle, _, _ = [1, 2, 3, 4, 5]  # 1
     orderings = list(itertools.permutations(houses))
     
@@ -42,22 +42,42 @@ def zebra_puzzle():  # (5!) ^ 5
                         if Ukrainian != tea: continue  # nation drink
                         if LuckyStrike != orange_juice: continue  # smoke drink
                         
-                        # return WATER, ZEBRA
-                        
-                        print(f'{WATER=}')
-                        print(f'{ZEBRA=}')
-                        print()
-                        
-                        # print(green, red, ivory, yellow, blue)
+                        return WATER, ZEBRA
+
+
+def zebra_puzzle_their():
+    """Return a tuple (WATER, ZEBRA) indicating """
+    houses = first, _, middle, _, _ = [1, 2, 3, 4, 5]
+    orderings = list(itertools.permutations(houses))
+    return next((WATER, ZEBRA)
+                for (red, green, ivory, yellow, blue) in orderings
+                for (Englishman, Spaniard, Ukranian, Japanese, Norwegian) in orderings
+                for (dog, snails, fox, horse, ZEBRA) in orderings
+                for (coffee, tea, milk, orange_juice, WATER) in orderings
+                for (OldGold, Kools, Chesterfields, LuckyStrike, Parliaments) in orderings
+                if Englishman is red
+                if Spaniard is dog
+                if coffee is green
+                if Ukranian is tea
+                if immediately_right(green, ivory)
+                if OldGold is snails
+                if Kools is yellow
+                if milk is middle
+                if Norwegian is first
+                if next_to(Chesterfields, fox)
+                if next_to(Kools, horse)
+                if LuckyStrike is orange_juice
+                if Japanese is Parliaments
+                if next_to(Norwegian, blue)
+                )
 
 
 def main():
     time_start = datetime.now()
-
-    zebra_puzzle()
-    # water, zebra = zebra_puzzle()
-    # print(f'{water=}')
-    # print(f'{zebra=}')
+    
+    water, zebra = zebra_puzzle_my()
+    print(f'{water=}')
+    print(f'{zebra=}')
     
     time_end = datetime.now()
     time_all = (time_end - time_start).total_seconds()
