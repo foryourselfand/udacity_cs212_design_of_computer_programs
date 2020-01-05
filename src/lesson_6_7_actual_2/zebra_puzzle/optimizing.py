@@ -7,7 +7,7 @@ from typing import Dict, Set, Tuple
 def get_types() -> Dict[str, str]:
     types: Dict[str, str] = dict()
     
-    with open('lesson_6_actual_2/zebra_puzzle/cycling.txt', 'r') as file_cycling:
+    with open('lesson_6_7_actual_2/zebra_puzzle/cycling.txt', 'r') as file_cycling:
         for line_raw in file_cycling.read().splitlines():
             line = line_raw.strip()
             
@@ -27,7 +27,7 @@ def get_types() -> Dict[str, str]:
 def get_pairs() -> Set[Tuple[str, str]]:
     pairs: Set[Tuple[str, str]] = set()
     
-    with open('lesson_6_actual_2/zebra_puzzle/checking.txt', 'r') as file_checking:
+    with open('lesson_6_7_actual_2/zebra_puzzle/checking.txt', 'r') as file_checking:
         for line in file_checking.read().splitlines():
             pattern_equals = re.compile('if (.*) != (.*): continue')
             pattern_immediately_right = re.compile('if not immediately_right\((.*), (.*)\): continue')

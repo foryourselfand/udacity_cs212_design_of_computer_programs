@@ -1,4 +1,3 @@
-import cProfile
 import itertools
 import re
 import time
@@ -44,11 +43,20 @@ def get_solution_faster(formula):
 def compile_formula(formula, verbose = False):
     """Compile formula into a function. Also return letters found, as a str,
     in same order as params of function. For example, 'YOU == ME**2' returns
-    (lambda Y, M, E, U, O: (U+10*O+100*Y) == (E+10*M)**2), 'YMEUO' """
-    letters = ''.join(set(re.findall('[A-Z]', formula)))
+    (lambda Y, M, E, U, O: (U+10*O+100*Y) == (E+10*M)**2), 'YMEUO'
+    So if YOU is a word in the formula, and the function is called with Y
+    equals to 0, it should return False.
+    For example, 'YOU == ME**2' =>
+    lambda E, M, O, U, Y: M!=0 and Y!=0 and ((U*1+O*10+Y*100) == (E*1+M*10)**2)"""
+    letters = ''.join(set(re.findall(r'[A-Z]', formula)))
+    letters_first = set(re.findall(r'\b([A-Z])[A-Z]', formula))
     params = ', '.join(letters)
     tokens = map(compile_word, re.split('([A-Z]+)', formula))
     body = ''.join(tokens)
+    if letters_first:
+        tests = ' and '.join(letter + '!=0' for letter in letters_first)
+        body = '%s and (%s)' % (tests, body)
+    
     f = 'lambda %s: %s' % (params, body)
     if verbose:
         print(f)
@@ -128,17 +136,17 @@ def compile_word(word):
 
 
 def main():
-    # formula = 'ONE < TWO and FOUR < FIVE'
-    # print(f'{formula=}')
-    # solution_first = next(get_solution_faster(formula))
-    # print(f'{solution_first=}')
+    formula = 'YOU == ME**2'
+    print(f'{formula=}')
+    solution_first = next(get_solution_faster(formula))
+    print(f'{solution_first=}')
     
     # for solution in get_solution(formula):
     #     print(f'{solution=}')
     
     # test()
     # lambdas()
-    cProfile.run('test()')
+    # cProfile.run('test()')
 
 
 if __name__ == '__main__':
